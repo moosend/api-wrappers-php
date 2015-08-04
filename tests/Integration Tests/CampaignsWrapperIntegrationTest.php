@@ -8,6 +8,7 @@ use moosend\ApiException;
 
 class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 	
+	
 	/**
 	 * @group CampaignsWrapperIntergrationTest
 	 */
