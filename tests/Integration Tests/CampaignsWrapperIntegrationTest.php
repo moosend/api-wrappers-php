@@ -4,6 +4,7 @@ namespace tests\IntegrationTests;
 use moosend\MoosendApi;
 use moosend\Models\CampaignParams;
 use moosend\Models\ABCampaignData;
+use moosend\ApiException;
 
 class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 	
@@ -27,22 +28,30 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		// draft parameters
 		$draftParams = new CampaignParams();
 		
+		$draftParams->MailingListID = $mailingListID;
 		$draftParams->Name = 'Campaigns Wrapper Integration Tests: Draft Name';
 		$draftParams->Subject = 'Campaigns Wrapper Integration Tests: Subject';
 		$draftParams->SenderEmail = 'j_tg86@yahoo.com';
 		$draftParams->ReplyToEmail = 'j_tg86@yahoo.com';
-	    //$draftParams->ConfirmationToEmail = 'example@example.com'; // Den douveli to api mallon...
-		$draftParams->WebLocation = 'https://github.com/moosend/dotnetwrapper/blob/master/Models/CampaignParams.cs';
- 		$draftParams->MailingListID = $mailingListID;
+	    $draftParams->ConfirmationToEmail = 'example@example.com'; 
+		$draftParams->WebLocation = 'http://en.aegeanair.com/-/media/newsletter/290715/indexGR1.html';
  		$draftParams->SegmentID = $segmentID;
 		$draftParams->ABCampaignType = 1;
-		$draftParams->WebLocationB = 'http://moosend.com/api/campaigns';
+		$draftParams->WebLocationB = 'http://www.mycoupon.gr/newsletter/index';
 		$draftParams->HoursToTest = 1;
 		$draftParams->ListPercentage = 25;
 		$draftParams->ABWinnerSelectionType = 1;
 		
 		// create draft
-		$draftID = $moosendApi->campaigns->createDraft($draftParams);
+		try {
+			$draftID = $moosendApi->campaigns->createDraft($draftParams);
+		} catch (ApiException $e) {
+			if ($e->getCode() == -2) {
+				var_dump($e->getMessages());
+			} else {
+				var_dump($e->getMessage());
+			}
+		}
 		
 		// get draft
 		$draft = $moosendApi->campaigns->getCampaign($draftID);
@@ -51,7 +60,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
  		$this->assertEquals($draftParams->Subject, $draft->getSubject());
  		$this->assertEquals($draftParams->SenderEmail, $draft->getSender()->getEmail());
  		$this->assertEquals($draftParams->ReplyToEmail, $draft->getReplyToEmail()->getEmail());
-		//$this->assertEquals($draftParams->ConfirmationToEmail, $draft->getConfirmationTo());
+		$this->assertEquals($draftParams->ConfirmationToEmail, $draft->getConfirmationTo());
 		$this->assertEquals($draftParams->WebLocation, $draft->getWebLocation());
 		$this->assertEquals($draftParams->MailingListID, $draft->getMailingList()->getID());
 		$this->assertEquals($draftParams->SegmentID, $draft->getSegment()->getID());
@@ -66,7 +75,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		
 		$draft->setName('Campaigns Wrapper Integration Tests: Draft Name After Update');
 		$draft->setSubject('Campaigns Wrapper Integration Tests: Subject After Update');
-		$draft->setWebLocation('http://thecodinglove.com/post/109191695161/minutes-before-the-release');
+		$draft->setWebLocation('http://www.mycoupon.gr/newsletter/index');
 		$draft->setConfirmationTo('example@example.com');
 		$draft->setSender($sender);
 		$draft->setReplyToEmail($sender);
@@ -100,7 +109,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		$ABCampaignData->setABWinnerSelectionType(1); // 1: 'TotalUniqueClicks': Used to determine the winner of an AB campaign according to which version achieved more unique link clicks
 		$ABCampaignData->setHoursToTest(1);
 		$ABCampaignData->setListPercentage(25);
-		$ABCampaignData->setWebLocationB('http://thecodinglove.com/post/109205159562/senior-developers');
+		$ABCampaignData->setWebLocationB('http://www.mycoupon.gr/newsletter/index');
 		
 		$draft->setABCampaignData($ABCampaignData);
 		
@@ -116,7 +125,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($sender->getEmail(), $updatedDraft->getSender()->getEmail());
 		$this->assertEquals($draft->getReplyToEmail()->getEmail(), $updatedDraft->getReplyToEmail()->getEmail());
 		$this->assertEquals($newMailingList->getID(), $updatedDraft->getMailingList()->getID());
-		$this->assertEquals($segment, $updatedDraft->getSegment());
+		$this->assertEquals($segment->getID(), $updatedDraft->getSegment()->getID());
 		$this->assertEquals($ABCampaignData->getABCampaignType(), $updatedDraft->getABCampaignData()->getABCampaignType());
 		$this->assertEquals($ABCampaignData->getABWinnerSelectionType(), $updatedDraft->getABCampaignData()->getABWinnerSelectionType());
 		$this->assertEquals($ABCampaignData->getHoursToTest(), $updatedDraft->getABCampaignData()->getHoursToTest());
@@ -136,7 +145,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		$campaign = $moosendApi->campaigns->getCampaign($draftID);
 		$this->assertTrue($campaign->getStatus() == 1, 'Campaign sent');
 		
-			// delete campaign
-			$moosendApi->campaigns->delete($draftID);
+		// delete campaign
+		$moosendApi->campaigns->delete($draftID);
 	}
 }

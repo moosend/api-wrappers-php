@@ -63,7 +63,6 @@ Then run php composer.phar update.
 Make a declaration like the following in your class to access the API
 
 ```php
-use moosend\MoosendApi;
 require_once __DIR__ . '/vendor/autoload.php';
 
 $moosendApi = new MoosendApi('YOUR_API_KEY');
