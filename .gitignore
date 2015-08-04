@@ -1,6 +1,8 @@
 vendor
 composer.phar
 demo.php
+phpunit.phar
+phpunit.xml
 
 *.pydevproject
 .metadata
