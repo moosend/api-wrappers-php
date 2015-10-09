@@ -89,7 +89,7 @@ class CampaignsWrapper {
 	 * @param string $sortMethod The method to sort results: 'ASC' for ascending, 'DESC' for descending. If not specified, ASC will be assumed
 	 * @return \moosend\Actions\Campaigns\CampaignsResponse
 	 */
-	public function getCampaigns(/* int */ $page = 1, /* int */ $pageSize = 10, /* string */ $sortBy = 'ASC', /* string */ $sortMethod = 'CreatedOn') {
+	public function getCampaigns(/* int */ $page = 1, /* int */ $pageSize = 10, /* string */ $sortBy = 'CreatedOn', /* string */ $sortMethod = 'ASC') {
 		$request = new CampaignsRequest($sortBy, $sortMethod);
 		$action = new CampaignsAction($this->_httpClient, $this->_apiEndpoint, $page, $pageSize, $this->_apiKey);
 		return $action->execute($request);
