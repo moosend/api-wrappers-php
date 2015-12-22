@@ -81,7 +81,7 @@ class CampaignsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		$draft->setSender($sender);
 		$draft->setReplyToEmail($sender);
 
-		$newMailingList = $moosendApi->mailingLists->getDetails('f22f9e33-c1c6-41ee-94e9-03265fa4feff');
+		$newMailingList = $moosendApi->mailingLists->getDetails('c673e294-a68a-46de-bdbf-e2ead42679c5');
 		$draft->setMailingList($newMailingList);
 		
 		$segment = null;
