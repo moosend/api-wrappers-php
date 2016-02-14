@@ -41,14 +41,10 @@ class CampaignParams implements \JsonSerializable{
 	public $WebLocation;
 	
 	/**
-	 * @var string The ID of a mailing list in your account to which the campaign will be sent to.
+	 * @var array A list of mailing list id's and optionally segment id's to which the campaign will be sent to. You can specify the same mailing list id multiple times with different segment id each time in order to send to multiple segments of the same mailing list.
 	 */
-	public $MailingListID;
+	public $MailingLists;
 	
-	/**
-	 * @var int  The ID of a segment in the specified mailing list to filter the recipients with. If not specified, the campaign will be sent to all active members of the mailing list.
-	 */
-	public $SegmentID;
 	
 	/**
 	 * @var int Defines the way to split an AB campaign. If omitted, a regular campaign will be sent.
@@ -91,6 +87,28 @@ class CampaignParams implements \JsonSerializable{
 	 */
 	public $ABWinnerSelectionType;
 
+	public static function withJSON($jsonData) {
+		$instance = new self();
+	
+		if (isset($jsonData)) {
+			$instance->Name = $jsonData['Name'];
+			$instance->Subject = $jsonData['Subject'];
+			$instance->SenderEmail = $jsonData['SenderEmail'];
+			$instance->ReplyToEmail = $jsonData['ReplyToEmail'];
+			$instance->ConfirmationToEmail = $jsonData['ConfirmationToEmail'];
+			$instance->WebLocation = $jsonData['WebLocation'];
+			$instance->MailingLists = $jsonData['MailingLists'];
+			$instance->ABCampaignType = $jsonData['ABCampaignType'];
+			$instance->SubjectB = $jsonData['SubjectB'];
+			$instance->WebLocationB = $jsonData['WebLocationB'];
+			$instance->SenderEmailB = $jsonData['SenderEmailB'];
+			$instance->HoursToTest = $jsonData['HoursToTest'];
+			$instance->ListPercentage = $jsonData['ListPercentage'];
+			$instance->AbWinnerSelectionType = $jsonData['AbWinnerSelectionType'];
+		}
+	
+		return $instance;
+	}
 	
 	public function JsonSerialize() {
 		$vars = get_object_vars($this);

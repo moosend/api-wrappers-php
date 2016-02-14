@@ -4,19 +4,27 @@ namespace moosend\Models;
 require_once __DIR__.'/CustomFieldDefinition.php';
 
 class MailingList {
-	private $ID;
-	private $Name;
-	private $ActiveMemberCount;
-	private $BouncedMemberCount;
-	private $RemovedMemberCount;
-	private $UnsubscribedMemberCount;
-	private $Status;
-	private $CustomFieldsDefinition;
-	private $CreatedBy;
-	private $CreatedOn;
-	private $UpdatedBy;
-	private $UpdatedOn;
-	private $ImportOperation;
+	public $ID;
+	public $Name;
+	public $ActiveMemberCount;
+	public $BouncedMemberCount;
+	public $RemovedMemberCount;
+	public $UnsubscribedMemberCount;
+	
+	/**
+	 * @var int 
+	 * 0: 'Created' 
+	 * 1: 'Imported'
+	 * 2: 'Importing'
+	 * 3: 'Deleting'
+	 */
+	public $Status;
+	
+	public $CustomFieldsDefinition;
+	public $CreatedBy;
+	public $CreatedOn;
+	public $UpdatedBy;
+	public $UpdatedOn;
 	
 	/**
 	 * Create a new instance and populate its properties with JSON data
@@ -26,7 +34,7 @@ class MailingList {
 	public static function withJSON($jsonData) {
 		$instance = new self();
 
-		if (!is_null($jsonData)) {
+		if (isset($jsonData)) {
 			$instance->ID = $jsonData['ID'];
 			$instance->Name= $jsonData['Name'];
 			$instance->ActiveMemberCount = $jsonData['ActiveMemberCount'];
@@ -45,61 +53,8 @@ class MailingList {
 			$instance->CreatedOn = $jsonData['CreatedOn'];
 			$instance->UpdatedBy = $jsonData['UpdatedBy'];
 			$instance->UpdatedOn = $jsonData['UpdatedOn'];
-			$instance->ImportOperation = $jsonData['ImportOperation'];
 		}
 		
 		return $instance;
-	}
-	
-	public function getID() {
-		return $this->ID;
-	}
-
-	public function getName() {
-		return $this->Name;
-	}
-	
-	public function getActiveMemberCount() {
-		return $this->ActiveMemberCount;
-	}
-	
-	public function getBouncedMemberCount() {
-		return $this->BouncedMemberCount;
-	}
-	
-	public function getRemovedMemberCount() {
-		return $this->RemovedMemberCount;
-	}
-	
-	public function getUnsubscribedMemberCount() {
-		return $this->UnsubscribedMemberCount;
-	}
-	
-	public function getStatus() {
-		return $this->Status;
-	}
-	
-	public function getCustomFieldsDefinition() {
-		return $this->CustomFieldsDefinition;
-	}
-	
-	public function getCreatedBy() {
-		return $this->CreatedBy;
-	}
-	
-	public function getCreatedOn() {
-		return $this->CreatedOn;
-	}
-	
-	public function getUpdatedBy() {
-		return $this->UpdatedBy;
-	}
-	
-	public function getUpdatedOn() {
-		return $this->UpdatedOn;
-	}
-	
-	public function getImportOperation() {
-		return $this->ImportOperation;
 	}
 }

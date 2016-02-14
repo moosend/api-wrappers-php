@@ -35,13 +35,13 @@ class SegmentTest extends \PHPUnit_Framework_TestCase {
 		 * @group SegmentTest
 		 */
 	public function test_Can_Create_Segment_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-		$this->assertEquals(163, $this->_segment->getID());
-		$this->assertEquals('People in London above 40', $this->_segment->getName());
-		$this->assertEquals(0, $this->_segment->getMatchType());
-		$this->assertEquals(SegmentCriteria::withJSON($this->_jsonData['Criteria'][0]), $this->_segment->getCriteria()[0]);
-		$this->assertEquals('127.0.0.1', $this->_segment->getCreatedBy());
-		$this->assertEquals('/Date(1368841040000+0300)/', $this->_segment->getCreatedOn());
-		$this->assertEquals('127.0.0.1', $this->_segment->getUpdatedBy());
-		$this->assertEquals('/Date(1368841040000+0300)/', $this->_segment->getUpdatedOn());
+		$this->assertEquals(163, $this->_segment->ID);
+		$this->assertEquals('People in London above 40', $this->_segment->Name);
+		$this->assertEquals(0, $this->_segment->MatchType);
+		$this->assertEquals(SegmentCriteria::withJSON($this->_jsonData['Criteria'][0])->ID, $this->_segment->Criteria[0]->ID);
+		$this->assertEquals('127.0.0.1', $this->_segment->CreatedBy);
+		$this->assertEquals('/Date(1368841040000+0300)/', $this->_segment->CreatedOn);
+		$this->assertEquals('127.0.0.1', $this->_segment->UpdatedBy);
+		$this->assertEquals('/Date(1368841040000+0300)/', $this->_segment->UpdatedOn);
 	}
 }

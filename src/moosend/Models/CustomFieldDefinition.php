@@ -28,11 +28,13 @@ class CustomFieldDefinition implements \JsonSerializable{
 	public static function withJSON(array $jsonData) {
 		$instance = new self();
 		
-		$instance->ID = $jsonData['ID'];
-		$instance->Name = $jsonData['Name'];
-		$instance->Context = $jsonData['Context'];
-		$instance->IsRequired = $jsonData['IsRequired'];
-		$instance->Type = $jsonData['Type'];
+		if (isset($jsonData)) {
+			$instance->ID = $jsonData['ID'];
+			$instance->Name = $jsonData['Name'];
+			$instance->Context = $jsonData['Context'];
+			$instance->IsRequired = $jsonData['IsRequired'];
+			$instance->Type = $jsonData['Type'];
+		}
 	
 		return $instance;
 	}

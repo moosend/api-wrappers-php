@@ -13,8 +13,8 @@ class SegmentSubscribersResponseTest extends \PHPUnit_Framework_TestCase {
 			$jsonData = json_decode(file_get_contents(__DIR__ . '/../../JsonResponses/getSegmentSubscribersJsonResponse.html'), true)['Context']; 
 			$segmentSubscribersResponse = new SegmentSubscribersResponse($jsonData);	
 			
-			$this->assertEquals('Some Name', $segmentSubscribersResponse[0]->getName());
-			$this->assertEquals('1bce44f1-5b48-49bb-8a98-f23839e54961', $segmentSubscribersResponse[1]->getID());
+			$this->assertEquals($jsonData['Subscribers'][0]['Name'], $segmentSubscribersResponse->Subscribers[0]->Name);
+			$this->assertEquals($jsonData['Subscribers'][1]['ID'], $segmentSubscribersResponse->Subscribers[1]->ID);
 
 			$this->assertInstanceOf('moosend\Actions\SegmentSubscribers\SegmentSubscribersResponse', $segmentSubscribersResponse);
 		}

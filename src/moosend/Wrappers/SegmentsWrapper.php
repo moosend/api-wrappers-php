@@ -110,8 +110,8 @@ class SegmentsWrapper {
 	 * @return null
 	 */
 	public function update(/* string */ $mailingListID, Segment $segment) {
-		$request = new UpdateSegmentRequest($segment->getName(), $segment->getMatchType());
-		$action = new UpdateSegmentAction($this->httpClient, $this->apiEndpoint, $mailingListID, $segment->getID(), $this->apiKey);
+		$request = new UpdateSegmentRequest($segment->Name, $segment->MatchType);
+		$action = new UpdateSegmentAction($this->httpClient, $this->apiEndpoint, $mailingListID, $segment->ID, $this->apiKey);
 		return $action->execute($request);
 	}
 	
@@ -292,7 +292,7 @@ class SegmentsWrapper {
  	 * @throws \InvalidArgumentException
  	 * @return null
  	 */
- 	public function updateCriteria(/* string */ $mailingListID, /* int */ $segmentID, /* int */ $criteriaID, /* string */ $field, /* string */ $comparer, /* string */ $value, \DateTime $dateFrom = null, \DateTime $dateTo = null) {
+ 	public function updateCriteria(/* string */ $mailingListID, /* int */ $segmentID, /* string */ $criteriaID, /* string */ $field, /* string */ $comparer, /* string */ $value, \DateTime $dateFrom = null, \DateTime $dateTo = null) {
  	if (empty($mailingListID) || empty($segmentID) || empty($criteriaID) || empty($field) || empty($comparer) || empty($value)) {
  			throw new \InvalidArgumentException('mailingListID, segmentID, criteriaID ,field, comparer and value are required arguments when calling SegmentsWrapper::updateCriteria');
  		} else {

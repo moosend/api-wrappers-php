@@ -14,8 +14,8 @@ class SubscribersResponseTest extends \PHPUnit_Framework_TestCase {
 		$subscribersResponse = new SubscribersResponse($jsonData);
 	
 		$this->assertInstanceOf('moosend\Actions\Subscribers\SubscribersResponse', $subscribersResponse);
-		$this->assertEquals($jsonData['Subscribers'][0]['Name'], $subscribersResponse[0]->getName());
-		$this->assertEquals($jsonData['Subscribers'][1]['Name'], $subscribersResponse[1]->getName());
-		$this->assertEquals($jsonData['Subscribers'][0]['CustomFields'][0]['Name'], $subscribersResponse[0]->getCustomFields()[0]->getName());
+		$this->assertEquals($jsonData['Subscribers'][0]['Name'], $subscribersResponse->Subscribers[0]->Name);
+		$this->assertEquals($jsonData['Subscribers'][1]['Name'], $subscribersResponse->Subscribers[1]->Name);
+		$this->assertEquals($jsonData['Subscribers'][0]['CustomFields'][0]['Name'], $subscribersResponse->Subscribers[0]->CustomFields[0]->Name);
 	}
 }

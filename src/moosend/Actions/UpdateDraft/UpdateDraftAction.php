@@ -8,7 +8,7 @@ use moosend\Models\Campaign;
 
 class UpdateDraftAction extends AbstractAction {
 	public function __construct($client, $endpoint, Campaign $campaign, $apiKey) {
-		$campaignID = $campaign->getID();
+		$campaignID = $campaign->ID;
 		$callContext = new CallContext($client, 'POST', $endpoint, '/campaigns/' . $campaignID . '/update.json', $apiKey);
 		parent::__construct($callContext);
 	}

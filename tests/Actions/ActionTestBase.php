@@ -1,12 +1,10 @@
 <?php
 namespace tests\Actions;
 
-use moosend\HttpClient;
 use moosend\Models\AbstractAction;
-use moosend\MoosendApi;
 
 class ActionTestBase extends \PHPUnit_Framework_TestCase {
-	const 	C_MOOSEND_API_ENDPOINT = 'http://api.moosend.com/v2';
+	const 	C_MOOSEND_API_ENDPOINT = 'http://api.moosend.com/v3';
 	
 	public $apiKey = 'apiKey';
 	public $campaignID = 'campaignID';

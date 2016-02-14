@@ -2,8 +2,8 @@
 namespace moosend\Actions\RemoveMultipleSubscribers;
 
 class RemoveMultipleSubscribersResponse  {
-	private $EmailsIgnored;
-	private $EmailsProcessed;
+	public $EmailsIgnored;
+	public $EmailsProcessed;
 	
 	public static function withJSON(array $jsonData) {
 		$instance = new self();
@@ -13,14 +13,4 @@ class RemoveMultipleSubscribersResponse  {
 		
 		return $instance;
 	}
-	
-	// @codeCoverageIgnoreStart
-	public function getEmailsIgnored() {
-		return $this->EmailsIgnored;
-	}
-	
-	public function getEmailsProcessed() {
-		return $this->EmailsProcessed;
-	}
-	// @codeCoverageIgnoreStop
 }

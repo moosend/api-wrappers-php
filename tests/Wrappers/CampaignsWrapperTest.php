@@ -32,36 +32,21 @@ class CampaignsWrapperTest extends \PHPUnit_Framework_TestCase {
 		$campaignsWrapper = new CampaignsWrapper($this->_stubHttpClient, $this->_moosendApi->getApiEndpoint(), $this->_apiKey);
 		$this->assertInstanceOf('moosend\Wrappers\CampaignsWrapper', $campaignsWrapper);
 	}
-
-	//================================================================================
-	// CampaignsWrapper::getCampaign
-	//================================================================================
 	
-	/**
-	 * Test error handling when calling getCampaign with an invalid campaignID.
-	 * @group CampaignsWrapperTest
-	 * @covers moosend\Wrappers\CampaignsWrapper::getCampaign
-	 * @expectedException InvalidArgumentException
-	 * @dataProvider providerInvalidValues
-	 */
-	public function test_Throws_InvalidArgumentException_When_Calling_GetCampaign_With_Invalid_CampaignID($campaignID) {
-		$this->_moosendApi->campaigns->getCampaign($campaignID);
-	}
+// 	//================================================================================
+// 	// CampaignsWrapper::cloneCampaign
+// 	//================================================================================
 	
-	//================================================================================
-	// CampaignsWrapper::cloneCampaign
-	//================================================================================
-	
-	/**
-	 * Test error handling when calling cloneCampaign with an invalid campaignID.
-	 * @group CampaignsWrapperTest
-	 * @covers moosend\Wrappers\CampaignsWrapper::cloneCampaign
-	 * @expectedException InvalidArgumentException
-	 * @dataProvider providerInvalidValues
-	 */
-	public function test_Throws_InvalidArgumentException_When_Calling_CloneCampaign_With_Invalid_CampaignID($campaignID) {
-		$this->_moosendApi->campaigns->cloneCampaign($campaignID);
-	}
+// 	/**
+// 	 * Test error handling when calling cloneCampaign with an invalid campaignID.
+// 	 * @group CampaignsWrapperTest
+// 	 * @covers moosend\Wrappers\CampaignsWrapper::cloneCampaign
+// 	 * @expectedException InvalidArgumentException
+// 	 * @dataProvider providerInvalidValues
+// 	 */
+// 	public function test_Throws_InvalidArgumentException_When_Calling_CloneCampaign_With_Invalid_CampaignID($campaignID) {
+// 		$this->_moosendApi->campaigns->cloneCampaign($campaignID);
+// 	}
 	
 	//================================================================================
 	// CampaignsWrapper::send
@@ -93,20 +78,20 @@ class CampaignsWrapperTest extends \PHPUnit_Framework_TestCase {
 		$this->_moosendApi->campaigns->delete($campaignID);
 	}
 	
-	//================================================================================
-	// CampaignsWrapper::getCampaignSummary
-	//================================================================================
+// 	//================================================================================
+// 	// CampaignsWrapper::getCampaignSummary
+// 	//================================================================================
 	
-	/**
-	 * Test error handling when calling getCampaignSummary with an invalid campaignID.
-	 * @group CampaignsWrapperTest
-	 * @covers moosend\Wrappers\CampaignsWrapper::getCampaignSummary
-	 * @expectedException InvalidArgumentException
-	 * @dataProvider providerInvalidValues
-	 */
-	public function test_Throws_InvalidArgumentException_When_Calling_GetCampaignSummary_With_Invalid_CampaignID($campaignID) {
-		$this->_moosendApi->campaigns->getCampaignSummary($campaignID);
-	}
+// 	/**
+// 	 * Test error handling when calling getCampaignSummary with an invalid campaignID.
+// 	 * @group CampaignsWrapperTest
+// 	 * @covers moosend\Wrappers\CampaignsWrapper::getCampaignSummary
+// 	 * @expectedException InvalidArgumentException
+// 	 * @dataProvider providerInvalidValues
+// 	 */
+// 	public function test_Throws_InvalidArgumentException_When_Calling_GetCampaignSummary_With_Invalid_CampaignID($campaignID) {
+// 		$this->_moosendApi->campaigns->getCampaignSummary($campaignID);
+// 	}
 	
 	//================================================================================
 	// CampaignsWrapper::getActivityByLocation

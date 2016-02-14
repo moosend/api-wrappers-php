@@ -35,14 +35,13 @@ class SegmentCriteriaTest extends \PHPUnit_Framework_TestCase {
 		 * @group SegmentCriteriaTest
 		 */
 	public function test_Can_Create_SegmentCriteria_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-		$this->assertEquals(201, $this->_segmentCriteria->getID());
-		$this->assertEquals(163, $this->_segmentCriteria->getSegmentID());
-		$this->assertEquals(99, $this->_segmentCriteria->getField());
-		$this->assertEquals('dd4fb545-ba00-4afe-bc39-5ed2462fd1d3', $this->_segmentCriteria->getCustomFieldID());
-		$this->assertEquals(0, $this->_segmentCriteria->getComparer());
-		$this->assertEquals('London', $this->_segmentCriteria->getValue());
-		$this->assertEquals(null, $this->_segmentCriteria->getDateFrom());
-		$this->assertEquals(null, $this->_segmentCriteria->getDateTo());		
-		$this->assertEquals(SegmentCriteriaProperty::withJSON($this->_jsonData['Properties'][0]), $this->_segmentCriteria->getProperties()[0]);
+		$this->assertEquals(201, $this->_segmentCriteria->ID);
+		$this->assertEquals(163, $this->_segmentCriteria->SegmentID);
+		$this->assertEquals(99, $this->_segmentCriteria->Field);
+		$this->assertEquals('dd4fb545-ba00-4afe-bc39-5ed2462fd1d3', $this->_segmentCriteria->CustomFieldID);
+		$this->assertEquals(0, $this->_segmentCriteria->Comparer);
+		$this->assertEquals('London', $this->_segmentCriteria->Value);
+		$this->assertEquals(null, $this->_segmentCriteria->DateFrom);
+		$this->assertEquals(null, $this->_segmentCriteria->DateTo);		
 		}
 }

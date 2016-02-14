@@ -31,7 +31,7 @@ class UpdateDraftActionTest extends ActionTestBase  {
 	 * @covers moosend\Actions\UpdateDraft\UpdateDraftAction::__construct
 	 */
 	public function test_Can_Call_ActionTestBase_Constructor_When_UpdateDraftAction_Object_Is_Created() {
-		$expectedUrl = self::C_MOOSEND_API_ENDPOINT . "/campaigns/{$this->_campaign->getID()}/update.json";
+		$expectedUrl = self::C_MOOSEND_API_ENDPOINT . "/campaigns/{$this->_campaign->ID}/update.json";
 		$expectedMethod = 'POST';
 		
 		$this->assertInstanceOf('moosend\Actions\UpdateDraft\UpdateDraftAction', $this->_action);

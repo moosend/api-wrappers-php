@@ -34,14 +34,14 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase {
 	 * @group SubscriberTest
 	 */
 	public function test_Can_Create_Subscriber_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-		$this->assertEquals($this->_jsonData['ID'], $this->_subscriber->getID());
-		$this->assertEquals($this->_jsonData['Name'], $this->_subscriber->getName());
-		$this->assertEquals($this->_jsonData['Email'], $this->_subscriber->getEmail());
-		$this->assertEquals($this->_jsonData['CreatedOn'], $this->_subscriber->getCreatedOn());
-		$this->assertEquals($this->_jsonData['UpdatedOn'], $this->_subscriber->getUpdatedOn());
-		$this->assertEquals($this->_jsonData['UnsubscribedOn'], $this->_subscriber->getUnsubscribedOn());
-		$this->assertEquals($this->_jsonData['UnsubscribedFromID'], $this->_subscriber->getUnsubscribedFromID());
-		$this->assertEquals($this->_jsonData['SubscribeType'], $this->_subscriber->getSubscribeType());
-		$this->assertEquals($this->_jsonData['CustomFields'][0]['Value'], $this->_subscriber->getCustomFields()[0]->getValue());
+		$this->assertEquals($this->_jsonData['ID'], $this->_subscriber->ID);
+		$this->assertEquals($this->_jsonData['Name'], $this->_subscriber->Name);
+		$this->assertEquals($this->_jsonData['Email'], $this->_subscriber->Email);
+		$this->assertEquals($this->_jsonData['CreatedOn'], $this->_subscriber->CreatedOn);
+		$this->assertEquals($this->_jsonData['UpdatedOn'], $this->_subscriber->UpdatedOn);
+		$this->assertEquals($this->_jsonData['UnsubscribedOn'], $this->_subscriber->UnsubscribedOn);
+		$this->assertEquals($this->_jsonData['UnsubscribedFromID'], $this->_subscriber->UnsubscribedFromID);
+		$this->assertEquals($this->_jsonData['SubscribeType'], $this->_subscriber->SubscribeType);
+		$this->assertEquals($this->_jsonData['CustomFields'][0]['Value'], $this->_subscriber->CustomFields[0]->Value);
 	}
 }

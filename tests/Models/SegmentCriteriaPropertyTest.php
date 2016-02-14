@@ -34,9 +34,9 @@ class SegmentCriteriaPropertyTest extends \PHPUnit_Framework_TestCase {
 		 * @group SegmentCriteriaPropertyTest
 		 */
 	public function test_Can_Create_SegmentCriteriaProperty_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-		$this->assertEquals(0, $this->_segmentCriteriaProperty->getID());
-		$this->assertEquals('Some Name', $this->_segmentCriteriaProperty->getName());
-		$this->assertEquals(0, $this->_segmentCriteriaProperty->getComparer());
-		$this->assertEquals('Some Value', $this->_segmentCriteriaProperty->getValue());
+		$this->assertEquals(0, $this->_segmentCriteriaProperty->ID);
+		$this->assertEquals('Some Name', $this->_segmentCriteriaProperty->Name);
+		$this->assertEquals(0, $this->_segmentCriteriaProperty->Comparer);
+		$this->assertEquals('Some Value', $this->_segmentCriteriaProperty->Value);
 	}
 }

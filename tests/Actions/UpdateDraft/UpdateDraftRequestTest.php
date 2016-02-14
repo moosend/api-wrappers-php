@@ -22,44 +22,43 @@ class UpdateDraftRequestTest extends  \PHPUnit_Framework_TestCase {
 		
 		$this->assertInstanceOf('moosend\Actions\UpdateDraft\UpdateDraftRequest', $updateDraftRequest);
 		
-		$this->assertEquals($campaign->getName(), $updateDraftRequest->Name);
-		$this->assertEquals($campaign->getSubject(), $updateDraftRequest->Subject);
-		$this->assertEquals($campaign->getWebLocation(), $updateDraftRequest->WebLocation);
-		$this->assertEquals($campaign->getConfirmationTo(), $updateDraftRequest->ConfirmationToEmail);
+		$this->assertEquals($campaign->Name, $updateDraftRequest->Name);
+		$this->assertEquals($campaign->Subject, $updateDraftRequest->Subject);
+		$this->assertEquals($campaign->WebLocation, $updateDraftRequest->WebLocation);
+		$this->assertEquals($campaign->ConfirmationTo, $updateDraftRequest->ConfirmationToEmail);
 		
-		$this->assertEquals($campaign->getSender()->getEmail(), $updateDraftRequest->SenderEmail);
-		$this->assertEquals($campaign->getReplyToEmail()->getEmail(), $updateDraftRequest->ReplyToEmail);
-		$this->assertEquals($campaign->getMailingList()->getID(), $updateDraftRequest->MailingListID);
-		$this->assertEquals($campaign->getSegment()->getID(), $updateDraftRequest->SegmentID);
+		$this->assertEquals($campaign->Sender->Email, $updateDraftRequest->SenderEmail);
+		$this->assertEquals($campaign->ReplyToEmail->Email, $updateDraftRequest->ReplyToEmail);
+		$this->assertEquals($campaign->MailingList->ID, $updateDraftRequest->MailingListID);
 		
-		$this->assertEquals($campaign->getABCampaignData()->getABCampaignType(), $updateDraftRequest->ABCampaignType);
-		$this->assertEquals($campaign->getABCampaignData()->getABWinnerSelectionType(), $updateDraftRequest->ABWinnerSelectionType);
-		$this->assertEquals($campaign->getABCampaignData()->getHoursToTest(), $updateDraftRequest->HoursToTest);
-		$this->assertEquals($campaign->getABCampaignData()->getListPercentage(), $updateDraftRequest->ListPercentage);
-		$this->assertEquals($campaign->getABCampaignData()->getSubjectB(), $updateDraftRequest->SubjectB);
-		$this->assertEquals($campaign->getABCampaignData()->getWebLocationB(), $updateDraftRequest->WebLocationB);
+		$this->assertEquals($campaign->ABCampaignData->ABCampaignType, $updateDraftRequest->ABCampaignType);
+		$this->assertEquals($campaign->ABCampaignData->ABWinnerSelectionType, $updateDraftRequest->ABWinnerSelectionType);
+		$this->assertEquals($campaign->ABCampaignData->HoursToTest, $updateDraftRequest->HoursToTest);
+		$this->assertEquals($campaign->ABCampaignData->ListPercentage, $updateDraftRequest->ListPercentage);
+		$this->assertEquals($campaign->ABCampaignData->SubjectB, $updateDraftRequest->SubjectB);
+		$this->assertEquals($campaign->ABCampaignData->WebLocationB, $updateDraftRequest->WebLocationB);
 		
-		$this->assertEquals($campaign->getABCampaignData()->getSenderB()->getEmail(), $updateDraftRequest->SenderEmailB);
+		$this->assertEquals($campaign->ABCampaignData->SenderB->Email, $updateDraftRequest->SenderEmailB);
 		
 	}
 	
 	/**
-	 * Test UpdateDraftRequest constructor when Sender, ReplyToEmail, MailingList, Segment, getABCampaignData are null.
+	 * Test UpdateDraftRequest constructor when Sender, ReplyToEmail, MailingList, Segment, ABCampaignData are null.
 	 * @group UpdateDraftRequestTest
 	 * @covers moosend\Actions\UpdateDraft\UpdateDraftRequest::__construct
 	 */
 	public function test_Can_Create_UpdateDraftRequest_Instance_When_Properties_Are_Null() {
 		$campaign = new Campaign();
-		$ABCampaignData = new ABCampaignData();
-		$campaign->setABCampaignData($ABCampaignData);
+		$ABCampaignData = new ABCampaignData;
+		$campaign->ABCampaignData = $ABCampaignData;
 		$updateDraftRequest = new UpdateDraftRequest($campaign);
 	
 		$this->assertInstanceOf('moosend\Actions\UpdateDraft\UpdateDraftRequest', $updateDraftRequest);
 	
-		$this->assertEquals($campaign->getName(), $updateDraftRequest->Name);
-		$this->assertEquals($campaign->getSubject(), $updateDraftRequest->Subject);
-		$this->assertEquals($campaign->getWebLocation(), $updateDraftRequest->WebLocation);
-		$this->assertEquals($campaign->getConfirmationTo(), $updateDraftRequest->ConfirmationToEmail);
+		$this->assertEquals($campaign->Name, $updateDraftRequest->Name);
+		$this->assertEquals($campaign->Subject, $updateDraftRequest->Subject);
+		$this->assertEquals($campaign->WebLocation, $updateDraftRequest->WebLocation);
+		$this->assertEquals($campaign->ConfirmationTo, $updateDraftRequest->ConfirmationToEmail);
 	
 		$this->assertEquals(null, $updateDraftRequest->SenderEmail);
 		$this->assertEquals(null, $updateDraftRequest->ReplyToEmail);

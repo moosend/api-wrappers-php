@@ -10,7 +10,7 @@ class CampaignSummaryTest extends \PHPUnit_Framework_TestCase {
 	private $_campaignSummary;
 	
 	public function setUp() {
-		$this->_jsonData = json_decode(file_get_contents(__DIR__ . '/../../tests/JsonResponses/CampaignSummaryJson.html'), true)['Context'];
+		$this->_jsonData = json_decode(file_get_contents(__DIR__ . '/../../tests/JsonResponses/CampaignSummaryJson.html'), true);
 		$this->_campaignSummary = CampaignSummary::withJSON($this->_jsonData);
 	}
 	
@@ -25,26 +25,39 @@ class CampaignSummaryTest extends \PHPUnit_Framework_TestCase {
 		 * @group CampaignSummaryTest
 		 */
 		public function test_Can_Create_CampaignSummary_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-			$this->assertEquals(123456, $this->_campaignSummary->getID());
-			$this->assertEquals(0, $this->_campaignSummary->getABVersion());
-			$this->assertEquals('01234567-89ab-cdef-0123-456789abcdef', $this->_campaignSummary->getCampaignID());
-			$this->assertEquals('Some CampaignName', $this->_campaignSummary->getCampaignName());
-			$this->assertEquals('ef234567-89ab-cdef-0123-456789abcd01', $this->_campaignSummary->getMailingListID());
-			$this->assertEquals('Some MailingListName', $this->_campaignSummary->getMailingListName());
-			$this->assertEquals('/Date(1400765198602)/', $this->_campaignSummary->getCampaignDeliveredOn());
-			$this->assertEquals('/Date(1400765198602)/', $this->_campaignSummary->getTo());
-			$this->assertEquals('/Date(1400765198602)/', $this->_campaignSummary->getFrom());
-			$this->assertEquals(0, $this->_campaignSummary->getTotalOpens());
-			$this->assertEquals(0, $this->_campaignSummary->getUniqueOpens());
-			$this->assertEquals(0, $this->_campaignSummary->getUniqueOpens());
-			$this->assertEquals(0, $this->_campaignSummary->getTotalForwards());
-			$this->assertEquals(0, $this->_campaignSummary->getUniqueForwards());
-			$this->assertEquals(0, $this->_campaignSummary->getTotalUnsubscribes());
-			$this->assertEquals(0, $this->_campaignSummary->getTotalLinkClicks());
-			$this->assertEquals(0, $this->_campaignSummary->getUniqueLinkClicks());
-			$this->assertEquals(0, $this->_campaignSummary->getSent());
-			$this->assertEquals(0, $this->_campaignSummary->getCampaignIsArchived());
-			$this->assertEquals(0, $this->_campaignSummary->getTotalComplaints());
+			$this->assertEquals($this->_jsonData['ID'], $this->_campaignSummary->ID);
+			$this->assertEquals($this->_jsonData['Name'], $this->_campaignSummary->Name);
+			$this->assertEquals($this->_jsonData['Subject'], $this->_campaignSummary->Subject);
+			$this->assertEquals($this->_jsonData['SiteName'], $this->_campaignSummary->SiteName);
+			$this->assertEquals($this->_jsonData['ConfirmationTo'], $this->_campaignSummary->ConfirmationTo);
+			$this->assertEquals($this->_jsonData['CreatedOn'], $this->_campaignSummary->CreatedOn);
+			$this->assertEquals($this->_jsonData['ABHoursToTest'], $this->_campaignSummary->ABHoursToTest);
+			$this->assertEquals($this->_jsonData['ABCampaignType'], $this->_campaignSummary->ABCampaignType);
+			$this->assertEquals($this->_jsonData['ABWinner'], $this->_campaignSummary->ABWinner);
+			$this->assertEquals($this->_jsonData['ABWinnerSelectionType'], $this->_campaignSummary->ABWinnerSelectionType);
+			$this->assertEquals($this->_jsonData['Status'], $this->_campaignSummary->Status);
+			$this->assertEquals($this->_jsonData['DeliveredOn'], $this->_campaignSummary->DeliveredOn);
+			$this->assertEquals($this->_jsonData['ScheduledFor'], $this->_campaignSummary->ScheduledFor);
+			$this->assertEquals($this->_jsonData['ScheduledForTimezone'], $this->_campaignSummary->ScheduledForTimezone);
+			
+			$lists = $this->_jsonData['MailingLists'];
+			$this->assertEquals(\CampaignSummaryMailingList::withJSON($lists[0])->Mailinglist->ID, $this->_campaignSummary->MailingLists[0]->ID);
+			
+			$this->assertEquals($this->_jsonData['TotalSent'], $this->_campaignSummary->TotalSent);
+			
+			$this->assertEquals($this->_jsonData['TotalSent'], $this->_campaignSummary->TotalSent);
+			$this->assertEquals($this->_jsonData['TotalOpens'], $this->_campaignSummary->TotalOpens);
+			$this->assertEquals($this->_jsonData['UniqueOpens'], $this->_campaignSummary->UniqueOpens);
+			$this->assertEquals($this->_jsonData['TotalBounces'], $this->_campaignSummary->TotalBounces);
+			$this->assertEquals($this->_jsonData['TotalForwards'], $this->_campaignSummary->TotalForwards);
+			$this->assertEquals($this->_jsonData['UniqueForwards'], $this->_campaignSummary->UniqueForwards);
+			$this->assertEquals($this->_jsonData['TotalLinkClicks'], $this->_campaignSummary->TotalLinkClicks);
+			$this->assertEquals($this->_jsonData['UniqueLinkClicks'], $this->_campaignSummary->UniqueLinkClicks);
+			$this->assertEquals($this->_jsonData['RecipientsCount'], $this->_campaignSummary->RecipientsCount);
+			$this->assertEquals($this->_jsonData['IsTransactional'], $this->_campaignSummary->IsTransactional);
+			$this->assertEquals($this->_jsonData['TotalComplaints'], $this->_campaignSummary->TotalComplaints);
+			$this->assertEquals($this->_jsonData['TotalUnsubscribes'], $this->_campaignSummary->TotalUnsubscribes);
+			
 				
 			$this->assertInstanceOf('moosend\Models\CampaignSummary', $this->_campaignSummary);
 		}

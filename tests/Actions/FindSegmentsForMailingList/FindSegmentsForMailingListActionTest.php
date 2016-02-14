@@ -44,7 +44,7 @@ class FindSegmentsForMailingListTest extends ActionTestBase  {
 		$jsonData = json_decode(file_get_contents(__DIR__ . '/../../JsonResponses/getSegmentsJsonResponse.html'), true)['Context'];
 		$returnedObject = $this->_action->onParse($jsonData);
 		
-		$expectedSegmentsResponseObject = new FindSegmentsForMailingListResponse($jsonData);
+		$expectedSegmentsResponseObject = new FindSegmentsForMailingListResponse($jsonData, 'listId');
 		
 		$this->assertEquals($expectedSegmentsResponseObject, $returnedObject);
 	}

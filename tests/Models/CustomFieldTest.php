@@ -35,7 +35,7 @@ class CustomFieldTest extends \PHPUnit_Framework_TestCase {
 		 * @group CustomFieldTest
 		 */
 	public function test_Can_Create_CustomField_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-		$this->assertEquals($this->_jsonData['Name'], $this->_customField->getName());
-		$this->assertEquals($this->_jsonData['Value'], $this->_customField->getValue());
+		$this->assertEquals($this->_jsonData['Name'], $this->_customField->Name);
+		$this->assertEquals($this->_jsonData['Value'], $this->_customField->Value);
 	}
 }

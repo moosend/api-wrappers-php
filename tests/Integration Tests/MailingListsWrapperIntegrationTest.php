@@ -10,7 +10,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 	 * @group MailingListsWrapperIntergrationTest
 	 */
 	public function test_MailingListsWrapperIntergrationTests() {
-		$apiKey = '03e3c603-44f4-4b23-88be-95b200d2f752';
+		$apiKey = 'a3ad8125-2a70-4868-ac05-29c75286810a';
 		$moosendApi = new MoosendApi($apiKey);		
 		
 		// create a mailing list
@@ -21,7 +21,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		
 		// get the new mailing list
 		$mailingList = $moosendApi->mailingLists->getDetails($mailingListID);
-		$this->assertEquals($name, $mailingList->getName());
+		$this->assertEquals($name, $mailingList->Name);
 		
 		// update mailing list
 		$updatedName = 'MailingLists Wrapper Integration Tests: Updated Mailing List';
@@ -31,7 +31,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		
 		// get the updated mailing list
 		$mailingList = $moosendApi->mailingLists->getDetails($mailingListID);
-		$this->assertEquals($updatedName, $mailingList->getName());
+		$this->assertEquals($updatedName, $mailingList->Name);
 		
 		// create custom field with default values
 		$customFieldName = 'MailingLists Wrapper Integration Tests: Custom Field';
@@ -39,7 +39,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		
 		// get the updated mailing list
 		$mailingList = $moosendApi->mailingLists->getDetails($mailingListID);
-		$this->assertEquals($customFieldName, $mailingList->getCustomFieldsDefinition()[0]->Name);
+		$this->assertEquals($customFieldName, $mailingList->CustomFieldsDefinition[0]->Name);
 		
 		// create another custom field
 		$anotherFieldName = 'MailingLists Wrapper Integration Tests: Another Field'; 
@@ -51,7 +51,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		// get the updated mailing list
 		$mailingList = $moosendApi->mailingLists->getDetails($mailingListID);
 		$found = false;
-		foreach ($mailingList->getCustomFieldsDefinition() as $customFieldDefinition) {
+		foreach ($mailingList->CustomFieldsDefinition as $customFieldDefinition) {
 			if ($customFieldDefinition->Name == 'MailingLists Wrapper Integration Tests: Another Field') {
 				$found = true;
 			}
@@ -59,7 +59,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($found, 'custom field found in mailing list');
 		
 		// get list's custom fields definitions
-		$customFieldDefinitions = $moosendApi->mailingLists->getDetails($mailingListID)->getCustomFieldsDefinition();
+		$customFieldDefinitions = $moosendApi->mailingLists->getDetails($mailingListID)->CustomFieldsDefinition;
 		
 		// extract second field
 		$secondField = null;
@@ -95,7 +95,7 @@ class MailingListsWrapperIntergrationTest extends \PHPUnit_Framework_TestCase {
 		// get the updated list
 		$mailingList = $moosendApi->mailingLists->getDetails($mailingListID);
 		
-		$this->assertTrue(count($mailingList->getCustomFieldsDefinition()) == 1, 'Custom field deleted');
+		$this->assertTrue(count($mailingList->CustomFieldsDefinition) == 1, 'Custom field deleted');
 		
 		// delete the mailing list
 		$moosendApi->mailingLists->delete($mailingListID);

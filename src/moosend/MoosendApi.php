@@ -18,7 +18,7 @@ class MoosendApi {
 	public $mailingLists;
 	public $segments;
 		
-	private $apiEndpoint = 'http://api.moosend.com/v2';
+	private $apiEndpoint = 'https://api.moosend.com/v3';
 	private $_apiKey;
 	private $_httpClient;
 

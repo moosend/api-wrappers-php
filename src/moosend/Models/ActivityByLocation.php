@@ -16,11 +16,13 @@ class ActivityByLocation {
 	public static function withJSON($jsonData) {
 		$instance = new self();
 		
-		$instance->Context = $jsonData['Context'];
-		$instance->ContextName = $jsonData['ContextName'];
-		$instance->TotalCount = $jsonData['TotalCount'];
-		$instance->UniqueCount = $jsonData['UniqueCount'];
-		$instance->ContextDescription = $jsonData['ContextDescription'];
+		if (isset($jsonData)) {
+			$instance->Context = $jsonData['Context'];
+			$instance->ContextName = $jsonData['ContextName'];
+			$instance->TotalCount = $jsonData['TotalCount'];
+			$instance->UniqueCount = $jsonData['UniqueCount'];
+			$instance->ContextDescription = $jsonData['ContextDescription'];
+		}
 	
 		return $instance;
 	}

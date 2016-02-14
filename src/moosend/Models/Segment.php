@@ -4,8 +4,8 @@ namespace moosend\Models;
 require_once __DIR__.'/SegmentCriteria.php';
 
 class Segment {
-	private $ID;
-	private $Name;
+	public $ID;
+	public $Name;
 	
 	/**
 	 * Specifies how the segment's criteria will match together. This must be one of the following values:
@@ -14,13 +14,17 @@ class Segment {
 	 * If not specified, All will be assumed.
 	 * @var $MatchType
 	 */
-	private $MatchType;
+	public $MatchType;
 	
-	private $Criteria;
-	private $CreatedBy;
-	private $CreatedOn;
-	private $UpdatedBy;
-	private $UpdatedOn;
+	public $Criteria;
+	public $CreatedBy;
+	public $CreatedOn;
+	public $UpdatedBy;
+	public $UpdatedOn;
+	public $FetchType;
+	public $FetchValue;
+	public $Description;
+	public $MailingListId;
 	
 	/**
 	 * Create a new instance and populate its properties with JSON data
@@ -30,66 +34,28 @@ class Segment {
 	public static function withJSON($jsonData) {
 		$instance = new self();
 		
-		$instance->ID = $jsonData['ID'];
-		$instance->Name = $jsonData['Name'];
-		$instance->MatchType = $jsonData['MatchType'];
-		
-		$instance->Criteria = array();
-		foreach ($jsonData['Criteria'] as $SegmentCriteria) {
-			$entry = SegmentCriteria::withJSON($SegmentCriteria);
-			array_push($instance->Criteria, $entry);
+		if (isset($jsonData)) {
+			$instance->ID = $jsonData['ID'];
+			$instance->Name = $jsonData['Name'];
+			$instance->MatchType = $jsonData['MatchType'];
+			
+			if (isset($jsonData['Criteria'])) {
+				$instance->Criteria = array();
+				foreach ($jsonData['Criteria'] as $segmentCriteria) {
+					$entry = SegmentCriteria::withJSON($segmentCriteria);
+					array_push($instance->Criteria, $entry);
+				}
+			}
+			
+			$instance->CreatedBy = $jsonData['CreatedBy'];
+			$instance->CreatedOn = $jsonData['CreatedOn'];
+			$instance->UpdatedBy = $jsonData['UpdatedBy'];
+			$instance->UpdatedOn = $jsonData['UpdatedOn'];
+			$instance->FetchType = $jsonData['FetchType'];
+			$instance->FetchValue = $jsonData['FetchValue'];
+			$instance->Description = $jsonData['Description'];
 		}
 		
-		$instance->CreatedBy = $jsonData['CreatedBy'];
-		$instance->CreatedOn = $jsonData['CreatedOn'];
-		$instance->UpdatedBy = $jsonData['UpdatedBy'];
-		$instance->UpdatedOn = $jsonData['UpdatedOn'];
-		
 		return $instance;	
-	}
-	
-	public function getID() {
-		return $this->ID;
-	}
-	
-	public function getName() {
-		return $this->Name;
-	}
-	
-	public function setName(/* string */ $name) {
-		$this->Name = $name;
-		return $this;
-	}
-	
-	public function getMatchType() {
-		return $this->MatchType;
-	}
-	
-	// matchType values
-	// Used in a segment to return the members in a mailing list that match all the given criteria: All = 0
-	// Used in a segment to return the members in a mailing list that match any of the given criteria: Any = 1
-	public function setMatchType(/* int */ $matchType) {
-		$this->MatchType = $matchType;
-		return $this->MatchType;
-	}
-	
-	public function getCriteria() {
-		return $this->Criteria;
-	}
-	
-	public function getCreatedBy() {
-		return $this->CreatedBy;
-	}
-	
-	public function getCreatedOn() {
-		return $this->CreatedOn;
-	}
-	
-	public function getUpdatedBy() {
-		return $this->UpdatedBy;
-	}
-	
-	public function getUpdatedOn() {
-		return $this->UpdatedOn;
 	}
 }

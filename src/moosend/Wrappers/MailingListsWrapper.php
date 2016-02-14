@@ -48,6 +48,25 @@ class MailingListsWrapper {
 		$this->_apiEndpoint =$apiEndpoint;
 		$this->_apiKey = $apiKey;
 	}
+	
+	/**
+	 * Gets details for a given mailing list. You may include subscriber statistics in your results or not. Any segments existing for the requested mailing list will not be included in the results.
+	 * @link http://moosend.com/api/lists#FindByID
+	 *
+	 * @param string $mailingListID The ID of the mailing list to be returned.
+	 * @param bool $withStatistics Specifies whether to fetch statistics for the subscribers or not. If ommitted, results will be returned with statistics by default. Specified value should be either 'true' of 'false' (without quotes).
+	 * @throws \InvalidArgumentException
+	 * @return moosend\Models\MailingList
+	 */
+	public function getDetails(/* string */ $mailingListID, /*bool */ $withStatistics = true) {
+		if (empty($mailingListID)) {
+			throw new \InvalidArgumentException('MailingListID is a required parameter when calling MailingListsWrapper::getDetails');
+		} else {
+			$request =  new MailingListDetailsRequest($withStatistics);
+			$action = new MailingListDetailsAction($this->_httpClient, $this->_apiEndpoint, $mailingListID, $this->_apiKey);
+			return $action->execute($request);
+		}
+	}
 		
 	/**
 	 * Gets a list of your active mailing lists in your account.
@@ -135,25 +154,6 @@ class MailingListsWrapper {
 		} else {
 			$request = new SubscribersRequest($status, $since, $page, $pageSize);
 			$action =  new SubscribersAction($this->_httpClient, $this->_apiEndpoint, $mailingListID, $this->_apiKey);
-			return $action->execute($request);
-		}
-	}
-	
-	/**
-	 * Gets details for a given mailing list. You may include subscriber statistics in your results or not. Any segments existing for the requested mailing list will not be included in the results.
-	 * @link http://moosend.com/api/lists#FindByID
-	 *
-	 * @param string $mailingListID The ID of the mailing list to be returned.
-	 * @param bool $withStatistics Specifies whether to fetch statistics for the subscribers or not. If ommitted, results will be returned with statistics by default. Specified value should be either 'true' of 'false' (without quotes).
-	 * @throws \InvalidArgumentException
-	 * @return moosend\Models\MailingList
-	 */
-	public function getDetails(/* string */ $mailingListID, /*bool */ $withStatistics = true) {
-		if (empty($mailingListID)) {
-			throw new \InvalidArgumentException('MailingListID is a required parameter when calling MailingListsWrapper::getDetails');
-		} else {
-			$request =  new MailingListDetailsRequest($withStatistics);
-			$action = new MailingListDetailsAction($this->_httpClient, $this->_apiEndpoint, $mailingListID, $this->_apiKey);
 			return $action->execute($request);
 		}
 	}

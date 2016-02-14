@@ -2,11 +2,9 @@
 namespace moosend\Wrappers;
 
 require_once __DIR__.'/../Models/CampaignParams.php';
-require_once __DIR__.'/../Models/CampaignDetails.php';
 require_once __DIR__.'/../Actions/Campaign/CampaignAction.php';
 require_once __DIR__.'/../Actions/Campaigns/CampaignsAction.php';
 require_once __DIR__.'/../Actions/Campaigns/CampaignsRequest.php';
-require_once __DIR__.'/../Actions/CampaignSummary/CampaignSummaryAction.php';
 require_once __DIR__.'/../Actions/ActivityByLocation/ActivityByLocationAction.php';
 require_once __DIR__.'/../Actions/LinkActivity/LinkActivityAction.php';
 require_once __DIR__.'/../Actions/CreateDraft/CreateDraftAction.php';
@@ -22,29 +20,26 @@ require_once __DIR__.'/../Actions/AllSenders/AllSendersAction.php';
 require_once __DIR__.'/../Actions/UpdateDraft/UpdateDraftAction.php';
 require_once __DIR__.'/../Actions/UpdateDraft/UpdateDraftRequest.php';
 
-use moosend\Actions\Campaign\CampaignRequest;
-use moosend\Actions\Campaign\CampaignAction;
-use moosend\Actions\Campaigns\CampaignsRequest;
-use moosend\Actions\Campaigns\CampaignsAction;
-use moosend\Actions\CampaignSummary\CampaignSummaryAction;
 use moosend\Actions\ActivityByLocation\ActivityByLocationAction;
-use moosend\Actions\LinkActivity\LinkActivityAction;
-use moosend\Actions\CreateDraft\CreateDraftAction;
-use moosend\Actions\CreateDraft\CreateDraftRequest;
-use moosend\Models\CampaignParams;
-use moosend\Actions\DeleteCampaign\DeleteCampaignAction;
-use moosend\Actions\Send\SendAction;
+use moosend\Actions\AllSenders\AllSendersAction;
+use moosend\Actions\Campaign\CampaignAction;
+use moosend\Actions\Campaigns\CampaignsAction;
+use moosend\Actions\Campaigns\CampaignsRequest;
 use moosend\Actions\CloneCampaign\CloneAction;
-use moosend\Models\Campaign;
-use moosend\Actions\UpdateDraft\UpdateDraftAction;
-use moosend\Actions\UpdateDraft\UpdateDraftRequest;
-use moosend\Actions\SendTestCampaign\SendTestCampaignRequest;
-use moosend\Actions\SendTestCampaign\SendTestCampaignAction;
+use moosend\Actions\CreateDraft\CreateDraftAction;
+use moosend\Actions\DeleteCampaign\DeleteCampaignAction;
+use moosend\Actions\LinkActivity\LinkActivityAction;
+use moosend\Actions\Send\SendAction;
 use moosend\Actions\SenderDetails\SenderDetailsAction;
 use moosend\Actions\SenderDetails\SenderDetailsRequest;
-use moosend\Actions\AllSenders\AllSendersAction;
-use moosend\Wrappers\CampaignsWrapper;
+use moosend\Actions\SendTestCampaign\SendTestCampaignAction;
+use moosend\Actions\SendTestCampaign\SendTestCampaignRequest;
+use moosend\Actions\UpdateDraft\UpdateDraftAction;
+use moosend\Actions\UpdateDraft\UpdateDraftRequest;
 use moosend\HttpClient;
+use moosend\Models\Campaign;
+use moosend\Models\CampaignParams;
+use moosend\Wrappers\CampaignsWrapper;
 
 class CampaignsWrapper {	
 	private $_httpClient;
@@ -55,25 +50,6 @@ class CampaignsWrapper {
 		$this->_httpClient = $httpClient;
 		$this->_apiEndpoint =$apiEndpoint;
 		$this->_apiKey = $apiKey;
-	}
-	
-	/**
-	 * Returns a complete set of properties that describe the requested campaign in detail. No statistics are included in the result.
-	 * @link http://moosend.com/api/campaigns#FindByID
-	 * 
-	 * @param string $campaignID The ID of the requested campaign
-	 * @throws \InvalidArgumentException
-	 * @return \moosend\Models\Campaign
-	 */
-	public function getCampaign(/* string */ $campaignID) {
-		if (empty($campaignID)) {
-			throw new \InvalidArgumentException('CampaignID is a required parameter when calling getCampaignDetails');
-		} elseif (is_numeric($campaignID)) {
-			throw new \InvalidArgumentException('Please provide a valid CampaignID when calling getCampaignDetails. Campaign ID must be a string');
-		} else {
-			$action = new CampaignAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
-			return  $action->execute();
-		}
 	}
 	
 	/**
@@ -96,22 +72,48 @@ class CampaignsWrapper {
 	}
 	
 	/**
-	 * Creates an exact copy of an existing campaign. If the campaign to be cloned has already been sent, the new campaign is created as a draft.
-	 * @link http://moosend.com/api/campaigns#Clone
+	 * Returns basic information for the specified sender identified by its email address.
+	 * @link http://moosend.com/api/campaigns#FindSenderByEmail
 	 *
-	 * @param string $campaignID
+	 * @param string $email
 	 * @throws \InvalidArgumentException
-	 * @return \moosend\Models\Campaign
+	 * @return \moosend\Models\Sender
 	 */
-	public function cloneCampaign(/* string */ $campaignID) {
-		if (empty($campaignID)) {
-			throw new \InvalidArgumentException('CampaignID is a required parameter when calling cloneCampaign');
-		} elseif (is_numeric($campaignID)) {
-			throw new \InvalidArgumentException('Please provide a valid CampaignID when calling cloneCampaign. Campaign ID must be a string');
+	public function getSenderDetails(/* string */ $email) {
+		if (empty($email)) {
+			throw new \InvalidArgumentException('Email is a required parameter when calling getSenderDetails');
+		} elseif (is_numeric($email)) {
+			throw new \InvalidArgumentException('Please provide a valid email address when calling getSenderDetails. Email address must be a string');
 		} else {
-			$action = new CloneAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
-			return  $action->execute();
+			$action = new SenderDetailsAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
+			$request = new SenderDetailsRequest($email);
+	
+			return  $action->execute($request);
 		}
+	}
+	
+	/**
+	 * Gets a list of your active senders in your account. You may specify any email address of these senders when sending a campaign.
+	 * @link http://moosend.com/api/campaigns#GetSenders
+	 *
+	 * @return \moosend\Actions\AllSenders\AllSendersResponse
+	 */
+	public function getAllSenders() {
+		$action = new AllSendersAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
+		return $action->execute();
+	}
+	
+	/**
+	 * Creates a new campaign in your account. This method does not send the campaign, but rather creates it as a draft, ready for sending or testing.
+	 *  You can choose to send either a regural campaign or an AB split campaign. Campaign content must be specified from a web location.
+	 *  @link http://moosend.com/api/campaigns#Create
+	 *
+	 * @param CampaignParams $campaignParams
+	 * @return string Draft ID
+	 */
+	public function createDraft(CampaignParams $draftParams) {
+		$action = new CreateDraftAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
+		return $action->execute($draftParams);
 	}
 	
 	/**
@@ -123,6 +125,7 @@ class CampaignsWrapper {
 	 * @throws \InvalidArgumentException
 	 * @return null
 	 */
+	
 	public function sendCampaignTest(/* string */ $campaignID, array $emails) {
 		if (empty($campaignID)) {
 			throw new \InvalidArgumentException('CampaignID is a required parameter when calling sendCampaignTest');
@@ -176,20 +179,20 @@ class CampaignsWrapper {
 	}
 	
 	/**
-	 * Provides a basic summary of the results for any sent campaign such as the number of recipients, opens, clicks, bounces, unsubscribes, forwards etc to date.
-	 * @link http://moosend.com/api/campaigns#FindByIDWithStatistics
+	 * Returns a list with your campaign links and how many clicks have been made by your recipients, either unique or total.
+	 * @link http://moosend.com/api/campaigns#LinkActivity
 	 *
-	 * @param string $campaignID The ID of the requested campaign.
+	 * @param string $campaignID
 	 * @throws \InvalidArgumentException
-	 * @return \moosend\Actions\CampaignSummary\CampaignSummaryResponse
+	 * @return \moosend\Actions\LinkActivity\LinkActivityResponse
 	 */
-	public function getCampaignSummary(/* string */ $campaignID) {
+	public function getLinkActivity(/* string */ $campaignID) {
 		if (empty($campaignID)) {
-			throw new \InvalidArgumentException('CampaignID is a required parameter when calling getCampaignSummary');
+			throw new \InvalidArgumentException('CampaignID is a required parameter when calling getLinkActivity');
 		} elseif (is_numeric($campaignID)) {
-			throw new \InvalidArgumentException('Please provide a valid CampaignID when calling getCampaignSummary. Campaign ID must be a string');
+			throw new \InvalidArgumentException('Please provide a valid CampaignID when calling getLinkActivity. Campaign ID must be a string');
 		} else {
-			$action = new CampaignSummaryAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
+			$action = new LinkActivityAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
 			return  $action->execute();
 		}
 	}
@@ -211,70 +214,6 @@ class CampaignsWrapper {
 			$action = new ActivityByLocationAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
 			return  $action->execute();
 		}
-	}
-	
-	/**
-	 * Returns a list with your campaign links and how many clicks have been made by your recipients, either unique or total.
-	 * @link http://moosend.com/api/campaigns#LinkActivity
-	 *
-	 * @param string $campaignID
-	 * @throws \InvalidArgumentException
-	 * @return \moosend\Actions\LinkActivity\LinkActivityResponse
-	 */
-	public function getLinkActivity(/* string */ $campaignID) {
-		if (empty($campaignID)) {
-			throw new \InvalidArgumentException('CampaignID is a required parameter when calling getLinkActivity');
-		} elseif (is_numeric($campaignID)) {
-			throw new \InvalidArgumentException('Please provide a valid CampaignID when calling getLinkActivity. Campaign ID must be a string');
-		} else {
-			$action = new LinkActivityAction($this->_httpClient, $this->_apiEndpoint, $campaignID, $this->_apiKey);
-			return  $action->execute();
-		}
-	}
-	
-	/**
-	 * Returns basic information for the specified sender identified by its email address.
-	 * @link http://moosend.com/api/campaigns#FindSenderByEmail
-	 *
-	 * @param string $email
-	 * @throws \InvalidArgumentException
-	 * @return \moosend\Models\Sender
-	 */
-	public function getSenderDetails(/* string */ $email) {
-		if (empty($email)) {
-			throw new \InvalidArgumentException('Email is a required parameter when calling getSenderDetails');
-		} elseif (is_numeric($email)) {
-			throw new \InvalidArgumentException('Please provide a valid email address when calling getSenderDetails. Email address must be a string');
-		} else {
-			$action = new SenderDetailsAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
-			$request = new SenderDetailsRequest($email);
-				
-			return  $action->execute($request);
-		}
-	}
-	
-	/**
-	 * Gets a list of your active senders in your account. You may specify any email address of these senders when sending a campaign.
-	 * @link http://moosend.com/api/campaigns#GetSenders
-	 *
-	 * @return \moosend\Actions\AllSenders\AllSendersResponse
-	 */
-	public function getAllSenders() {
-		$action = new AllSendersAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
-		return $action->execute();
-	}
-	
-	/**
-	 * Creates a new campaign in your account. This method does not send the campaign, but rather creates it as a draft, ready for sending or testing.
-	 *  You can choose to send either a regural campaign or an AB split campaign. Campaign content must be specified from a web location.
-	 *  @link http://moosend.com/api/campaigns#Create
-	 *
-	 * @param CampaignParams $campaignParams
-	 * @return string Draft ID
-	 */
-	public function createDraft(CampaignParams $draftParams) {
-		$action = new CreateDraftAction($this->_httpClient, $this->_apiEndpoint, $this->_apiKey);
-		return $action->execute($draftParams);
 	}
 	
 	/**

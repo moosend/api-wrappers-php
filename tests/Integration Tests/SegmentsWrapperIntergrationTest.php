@@ -8,7 +8,7 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 	 * @group SegmentsWrapperIntegrationTests
 	 */
 	public function test_SegmentsWrapperIntegrationTests() {
-		$apiKey = '03e3c603-44f4-4b23-88be-95b200d2f752';
+		$apiKey = 'a3ad8125-2a70-4868-ac05-29c75286810a';
 		$moosendApi = new MoosendApi($apiKey);
 		$mailingListID = '4e9243e2-4a81-4c17-9672-574b61cc2560';
 		
@@ -18,13 +18,14 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 
 		// get segment's details
 		$segment = $moosendApi->segments->getDetails($mailingListID, $segmentID);
-		$this->assertEquals($name, $segment->getName());
+		$this->assertEquals($name, $segment->Name);
 		
 		// get all segments and find segment in mailing list.
 		$segments = $moosendApi->segments->getSegments($mailingListID);
 		$found = false;
-		foreach ($segments as $segment) {
-			if ($segment->getID() == $segmentID) {
+		
+		foreach ($segments->Segments as $segment) {
+			if ($segment->ID == $segmentID) {
 				$found = true;
 			}
 		}
@@ -32,17 +33,18 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 		
 		// update segment	
 		$updatedName = 'Segments integration test: Updated Segment To Test';
-		$segment->setName($updatedName);
-		$segment->setMatchType(1);
+		$segment->Name = $updatedName;
+		$segment->MatchType = 1;
 		$moosendApi->segments->update($mailingListID, $segment);
 		
-		$this->assertEquals($updatedName, $segment->getName());
-		$this->assertEquals(1, $segment->getMatchType());
+		$this->assertEquals($updatedName, $segment->Name);
+		$this->assertEquals(1, $segment->MatchType);
 		
 		// get (Subscribed) subscribers
-		$subscribers = $moosendApi->segments->getSubscribers($mailingListID, $segmentID);
+		$subscribers = $moosendApi->segments->getSubscribers($mailingListID, $segmentID, 'Subscribed');
 		$mailingListSubscribers = $moosendApi->mailingLists->getSubscribers($mailingListID, 'Subscribed');
-		$this->assertTrue(count($subscribers) == count($mailingListSubscribers), 'found segment\'s subscribers');
+		
+		$this->assertTrue(count($subscribers->Subscribers) == count($mailingListSubscribers->Subscribers), 'found segment\'s subscribers');
 		
 		// add criteria
 		$listSegments = $moosendApi->segments->getSegments($mailingListID);
@@ -55,10 +57,10 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 		
 		// get updated segment details
 		$segment = $moosendApi->segments->getDetails($mailingListID, $segmentID);
-		$segmentCriteria = $segment->getCriteria();
+		$segmentCriteria = $segment->Criteria;
 		$found = false;
 		foreach ($segmentCriteria as $criteria) {
-			if ($criteria->getID() == $newCriteriaID) {
+			if ($criteria->ID == $newCriteriaID) {
 				$found = true;
 				break;
 			}
@@ -70,10 +72,10 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 
 		// get updated segment details
 		$segment = $moosendApi->segments->getDetails($mailingListID, $segmentID);
-		$segmentCriteria = $segment->getCriteria();
+		$segmentCriteria = $segment->Criteria;
 		$found = false;
 		foreach ($segmentCriteria as $criteria) {
-			if ($criteria->getID() == $newCriteriaID && $criteria->getValue() == 1000) {
+			if ($criteria->ID == $newCriteriaID && $criteria->Value == 1000) {
 				$found = true;
 				break;
 			}
@@ -85,7 +87,7 @@ class SegmentsWrapperIntegrationTests extends \PHPUnit_Framework_TestCase {
 		$deleted = true;
 		$segments = $moosendApi->segments->getSegments($mailingListID);
 		foreach ($segments as $segment) {
-			if ($segment->getID() == $segmentID) {
+			if ($segment->ID == $segmentID) {
 				$found = false;
 				break;
 			}

@@ -25,14 +25,14 @@ class SenderTest extends \PHPUnit_Framework_TestCase {
 		 * @group SenderTest
 		 */
 		public function test_Can_Create_Sender_Instance_When_Providing_Valid_Json_Data_To_Custom_Constructor() {
-			$this->assertEquals('01234567-89ab-cdef-0123-456789abcdef', $this->_sender->getID());
-			$this->assertEquals('Your Name', $this->_sender->getName());
-			$this->assertEquals('sender@example.com', $this->_sender->getEmail());
-			$this->assertEquals('/Date(1323857838000+0200)/', $this->_sender->getCreatedOn());
-			$this->assertEquals(true, $this->_sender->getIsEnabled());
-			$this->assertEquals(false, $this->_sender->getSpfVerified());
-			$this->assertEquals(false, $this->_sender->getDkimVerified());
-			$this->assertEquals('Some DkimPublic', $this->_sender->getDkimPublic());		
+			$this->assertEquals('01234567-89ab-cdef-0123-456789abcdef', $this->_sender->ID);
+			$this->assertEquals('Your Name', $this->_sender->Name);
+			$this->assertEquals('sender@example.com', $this->_sender->Email);
+			$this->assertEquals('/Date(1323857838000+0200)/', $this->_sender->CreatedOn);
+			$this->assertEquals(true, $this->_sender->IsEnabled);
+			$this->assertEquals(false, $this->_sender->SpfVerified);
+			$this->assertEquals(false, $this->_sender->DkimVerified);
+			$this->assertEquals('Some DkimPublic', $this->_sender->DkimPublic);		
 
 			$this->assertInstanceOf('moosend\Models\Sender', $this->_sender);
 		}

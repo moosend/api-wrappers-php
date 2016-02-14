@@ -17,8 +17,8 @@ class RemoveMultipleSubscribersResponseTest extends \PHPUnit_Framework_TestCase 
 															} }', true);
 			$removeMultipleSubscribersResponse = RemoveMultipleSubscribersResponse::withJSON($jsonData['Context']);	
 			
-			$this->assertEquals(0, $removeMultipleSubscribersResponse->getEmailsIgnored());
-			$this->assertEquals(0, $removeMultipleSubscribersResponse->getEmailsProcessed());
+			$this->assertEquals(0, $removeMultipleSubscribersResponse->EmailsIgnored);
+			$this->assertEquals(0, $removeMultipleSubscribersResponse->EmailsProcessed);
 
 			$this->assertInstanceOf('moosend\Actions\RemoveMultipleSubscribers\RemoveMultipleSubscribersResponse', $removeMultipleSubscribersResponse);
 		}
