@@ -9,7 +9,7 @@ PHP 5.4.0 and later
 ## Installation & Usage
 
 ```
-composer require moosend/phpwrapper
+composer require moo-theo/php-api-wrapper
 ```
 
 ### Manual Installation
