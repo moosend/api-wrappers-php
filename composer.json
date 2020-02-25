@@ -29,9 +29,9 @@
         "friendsofphp/php-cs-fixer": "~1.12"
     },
     "autoload": {
-        "psr-4": { "Moosend\\API\\Client\\":"lib/" }
+        "psr-4": { "Swagger\\Client\\":"lib/" }
     },
     "autoload-dev": {
-        "psr-4": { "Moosend\\API\\Client\\":"test/" }
+        "psr-4": { "Swagger\\Client\\":"test/" }
     }
 }
